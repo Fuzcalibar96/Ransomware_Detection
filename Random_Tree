@@ -33,9 +33,16 @@ def train_model(X_train, y_train):
     return model
 
 # Paths
-archive_path = "ember_dataset.tar.bz2"
-extract_path = "ember_data"
-train_files = [f"{extract_path}/train_features_{i}.jsonl" for i in range(6)]
+archive_path = "/Users/faisalzaman/Desktop/Ransomware_Detection/Ransomware_Detection/ember_dataset.tar.bz2"
+extract_path = "/Users/faisalzaman/Desktop/Ransomware_Detection/Ransomware_Detection/ember/ember_model_2017.txt
+train_files = [
+    f"{extract_path}/train_features_0.jsonl",
+    f"{extract_path}/train_features_1.jsonl",
+    f"{extract_path}/train_features_2.jsonl",
+    f"{extract_path}/train_features_3.jsonl",
+    f"{extract_path}/train_features_4.jsonl",
+    f"{extract_path}/train_features_5.jsonl",
+]
 test_file = f"{extract_path}/test_features.jsonl"
 
 # Extract dataset
