@@ -34,7 +34,7 @@ def train_model(X_train, y_train):
 
 # Paths
 archive_path = "/Users/faisalzaman/Desktop/Ransomware_Detection/Ransomware_Detection/ember_dataset.tar.bz2"
-extract_path = "/Users/faisalzaman/Desktop/Ransomware_Detection/Ransomware_Detection/ember/ember_model_2017.txt
+extract_path = "/Users/faisalzaman/Desktop/Ransomware_Detection/Ransomware_Detection/ember/ember_model_2017.txt"
 train_files = [
     f"{extract_path}/train_features_0.jsonl",
     f"{extract_path}/train_features_1.jsonl",
