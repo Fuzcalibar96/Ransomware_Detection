@@ -1,0 +1,57 @@
+import os
+import tarfile
+import json
+import numpy as np
+import joblib
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report
+
+def extract_dataset(archive_path, extract_path):
+    """Extracts the tar.bz2 archive."""
+    if not os.path.exists(extract_path):
+        os.makedirs(extract_path)
+        with tarfile.open(archive_path, "r:bz2") as tar:
+            tar.extractall(path=extract_path)
+    print("Dataset extracted.")
+
+def load_features(file_paths):
+    """Loads features from multiple JSONL files."""
+    X, y = [], []
+    for file_path in file_paths:
+        with open(file_path, 'r') as f:
+            for line in f:
+                data = json.loads(line)
+                X.append(data['feature'])
+                y.append(data['label'])
+    return np.array(X), np.array(y)
+
+def train_model(X_train, y_train):
+    """Trains a RandomForest model."""
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model.fit(X_train, y_train)
+    return model
+
+# Paths
+archive_path = "ember_dataset.tar.bz2"
+extract_path = "ember_data"
+train_files = [f"{extract_path}/train_features_{i}.jsonl" for i in range(6)]
+test_file = f"{extract_path}/test_features.jsonl"
+
+# Extract dataset
+extract_dataset(archive_path, extract_path)
+
+# Load dataset
+X, y = load_features(train_files)
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train model
+model = train_model(X_train, y_train)
+joblib.dump(model, "ransomware_detector.pkl")
+print("Model trained and saved.")
+
+# Evaluate
+X_test, y_test = load_features([test_file])
+y_pred = model.predict(X_test)
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Classification Report:\n", classification_report(y_test, y_pred))
